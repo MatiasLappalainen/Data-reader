@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="jquery.jqplot.css" />
+    
+
+    <!--JQuary scripts-->
+    <script class="include" src="jquery.js"></script>
+    <title>JQplot</title>
+</head>
+<body>
+
+
+<div id="chart"></div>
+
+
+<script src="GeneratedData.js"></script>
+<script src="checkData.js"></script>
+<script src="index.php"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+
+
+            checkData(data);
+            var data2 = checkData(data);
+            var message = ['Maintenence'];
+
+            var jqplot = $.jqplot('chart', [data, data2], {
+
+
+                title: 'Warning',
+
+                animate: true,
+                animateReplot: true,
+
+                autoscale: true,
+
+                axes: {
+
+
+
+                    xaxis: {
+
+                        renderer: $.jqplot.DateAxisRenderer,
+                        tickOptions:{formatString:'%H'},
+                        min: data[0][0],
+                        max: data[data.length - 1][0],
+                        tickInterval:'1 hour'
+                    },
+                    yaxis: {
+
+                        min: 0,
+                        max: 200
+
+                    }
+
+                },
+                series: [{
+                    rendererOptions: {
+                        smooth: true
+                    },
+
+
+                    showMarker: false,
+
+                highlighter: {
+                    formatString: '%2$d'
+                }
+
+
+
+                },
+                {
+
+
+                    highlighter: {
+
+
+                        formatString: '<div id="info">'+ message[0]+'</div>'
+
+
+                    },
+
+
+
+                    markerOptions: {size: 8}
+
+                }],
+
+                highlighter: {
+                    show: true,
+                    showTooltip: true,
+                    tooltipFade: true,
+                    sizeAdjust: 10,
+                    tooltipLocation: 'n',
+                    useAxesFormatters: false
+                },
+                legend: {
+                    show: true,
+                    location: 'sw',
+                    labels: ['Values', 'Errors']
+                }
+
+
+
+
+
+
+            });
+
+$('#chart').bind('jqplotDataClick', function(ev, seriesIndex, pointIndex, data){
+
+    $('#info').html('<form method="get">' + '<input type="text" name="error" >'+'</form>');
+
+});
+
+
+
+});
+
+
+</script>
+
+<script class="include" type="text/javascript" src="jquery.jqplot.min.js"></script>
+<script class="include" type="text/javascript" src="plugins/jqplot.highlighter.js"></script>
+<script class="include" type="text/javascript" src="plugins/jqplot.linearAxisRenderer.js"></script>
+<script type="text/javascript" src="plugins/jqplot.pointLabels.js"></script>
+<script class="include" type="text/javascript" language="JavaScript" src="plugins/jqplot.dateAxisRenderer.js"></script>
+</body>
+</html>
